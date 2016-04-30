@@ -12,10 +12,14 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+import com.mygdx.doudisgame.actors.Enemy;
 import com.mygdx.doudisgame.actors.Ground;
 import com.mygdx.doudisgame.actors.Runner;
 import com.mygdx.doudisgame.utils.BodyUtils;
 import com.mygdx.doudisgame.utils.WorldUtils;
+
+import sun.font.CreatedFontTracker;
 
 
 public class GameStage extends Stage implements ContactListener {
@@ -60,8 +64,15 @@ public class GameStage extends Stage implements ContactListener {
 		world.setContactListener(this);
 		setupGround();
 		setupRunner();
+		createEnemy();
 	}
 	
+	private void createEnemy() {
+		Enemy enemy = new Enemy(WorldUtils.createEnemy(world));
+		addActor(enemy);
+		
+	}
+
 	private void setupGround(){
 		ground = new Ground(WorldUtils.createGround(world));
 		addActor(ground);
@@ -137,10 +148,16 @@ public class GameStage extends Stage implements ContactListener {
 		Body a = contact.getFixtureA().getBody();
 		Body b = contact.getFixtureB().getBody();
 		
-		if((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsGround(b)) ||
+		if((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsEnemy(b)) ||
+				(BodyUtils.bodyIsEnemy(a) && BodyUtils.bodyIsRunner(b))){
+			runner.hit();
+		}
+		else if((BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsGround(b)) ||
 				(BodyUtils.bodyIsGround(a) && BodyUtils.bodyIsRunner(b))){
 			runner.landed();
 		}
+		
+		
 	}
 
 	@Override
@@ -174,6 +191,13 @@ public class GameStage extends Stage implements ContactListener {
 	public void act(float delta){
 		super.act(delta);
 		
+		//Updating all bodies
+		Array<Body> bodies = new Array<Body>(world.getBodyCount());
+		world.getBodies(bodies);
+		for(Body body:bodies){
+			update(body);
+		}
+		
 		accumulator += delta;
 		
 		while (accumulator >= delta){
@@ -182,6 +206,18 @@ public class GameStage extends Stage implements ContactListener {
 		}
 	}
 	
+	private void update(Body body) {
+		
+		//check if bodies needs to be destroyed
+		if(!BodyUtils.bodyInBounds(body)){
+			if(BodyUtils.bodyIsEnemy(body) && !runner.isHit()){
+				createEnemy();
+			}
+			world.destroyBody(body);
+		}
+		
+	}
+
 	@Override
 	public void draw(){
 		super.draw();
