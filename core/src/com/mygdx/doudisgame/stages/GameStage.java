@@ -13,10 +13,14 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.mygdx.doudisgame.actors.Background;
 import com.mygdx.doudisgame.actors.Enemy;
 import com.mygdx.doudisgame.actors.Ground;
 import com.mygdx.doudisgame.actors.Runner;
 import com.mygdx.doudisgame.utils.BodyUtils;
+import com.mygdx.doudisgame.utils.Constants;
 import com.mygdx.doudisgame.utils.WorldUtils;
 
 import sun.font.CreatedFontTracker;
@@ -24,18 +28,18 @@ import sun.font.CreatedFontTracker;
 
 public class GameStage extends Stage implements ContactListener {
 
-	private static final int VIEWPORT_WIDTH = 20;
-	private static final int VIEWPORT_HEIGHT = 13;
+	private static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
+	private static final int VIEWPORT_HEIGHT = Constants.APP_HEIGHT;
 	
 	private World world;
 	private Ground ground;
 	private Runner runner;
 	
-	private final float TIME_STEP = 1/300f;
+	private final float TIME_STEP = 1/600f;
 	private float accumulator = 0f;
 	
 	private OrthographicCamera camera;
-	private Box2DDebugRenderer renderer;
+
 	
 	
 	private Rectangle screenRightSide;
@@ -44,12 +48,12 @@ public class GameStage extends Stage implements ContactListener {
 	
 	
 	public GameStage(){
-		
+		 super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 		//BODIES
 		setupWorld();
 		setupCamera();
 		setupTouchControlAreas();
-		renderer = new Box2DDebugRenderer();
+		
 		
 	}
 	
@@ -62,9 +66,14 @@ public class GameStage extends Stage implements ContactListener {
 	private void setupWorld(){
 		world = WorldUtils.createWorld();
 		world.setContactListener(this);
-		setupGround();
+		setupBackground();
 		setupRunner();
+		setupGround();
 		createEnemy();
+	}
+	
+	private void setupBackground(){
+		addActor(new Background());
 	}
 	
 	private void createEnemy() {
@@ -218,11 +227,7 @@ public class GameStage extends Stage implements ContactListener {
 		
 	}
 
-	@Override
-	public void draw(){
-		super.draw();
-		renderer.render(world, camera.combined);
-	}
+	
 
 
 	
