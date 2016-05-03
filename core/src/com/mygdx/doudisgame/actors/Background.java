@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.doudisgame.enums.GameState;
 import com.mygdx.doudisgame.utils.Constants;
+import com.mygdx.doudisgame.utils.GameManager;
 
 public class Background extends Actor{
 	
@@ -16,7 +18,7 @@ public class Background extends Actor{
 	private int speed = 100;
 	
 	public Background(){
-		textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Constants.BACKGROUND_IMAGE_PATH)));
+		textureRegion = new TextureRegion(new Texture(Constants.BACKGROUND_IMAGE_PATH));
 		textureRegionBounds1 = new Rectangle(0 - Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT );
 		textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT );
 	}
@@ -26,7 +28,7 @@ public class Background extends Actor{
 		if(leftBoundsReached(delta)){
 			resetBounds();
 		}
-		else{
+		else if(GameManager.getInstance().getGameState() == GameState.RUNNING){
 			updateXBounds(-delta);
 		}
 	}

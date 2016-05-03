@@ -13,6 +13,8 @@ public class Constants {
 	
 	// FILES
 	
+	public static final String RESTART_IMAGE_PATH = "restart.png";
+	
 	public static final String BACKGROUND_IMAGE_PATH = "background.png";
 	public static final String GROUND_IMAGE_PATH = "ground.png";
 	public static final String CHARACTERS_ATLAS_PATH = "characters.txt";

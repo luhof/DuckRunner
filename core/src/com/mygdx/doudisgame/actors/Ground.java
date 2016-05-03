@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.doudisgame.box2d.GroundUserData;
+import com.mygdx.doudisgame.enums.GameState;
 import com.mygdx.doudisgame.utils.Constants;
+import com.mygdx.doudisgame.utils.GameManager;
 
 public class Ground extends GameActor{
 	
@@ -34,7 +36,7 @@ public class Ground extends GameActor{
 		if(leftBoundsReached(delta)){
 			resetBounds();
 		}
-		else{
+		else if(GameManager.getInstance().getGameState() == GameState.RUNNING){
 			updateXBounds(-delta);
 		}
 	}

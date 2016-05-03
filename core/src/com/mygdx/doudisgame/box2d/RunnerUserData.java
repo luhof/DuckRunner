@@ -37,6 +37,8 @@ public class RunnerUserData extends UserData{
 		return runningPosition;
 	}
 	
+	
+	
 	public Vector2 getDodgePosition(){
 		return dodgePosition;
 	}
