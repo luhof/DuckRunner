@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -23,7 +22,6 @@ import com.mygdx.doudisgame.utils.BodyUtils;
 import com.mygdx.doudisgame.utils.Constants;
 import com.mygdx.doudisgame.utils.WorldUtils;
 
-import sun.font.CreatedFontTracker;
 
 
 public class GameStage extends Stage implements ContactListener {
