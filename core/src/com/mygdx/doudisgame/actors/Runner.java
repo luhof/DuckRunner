@@ -105,5 +105,15 @@ public class Runner extends GameActor{
 	public boolean isHit(){
 		return this.isHit;
 	}
+	
+	public void reset(){
+		isJumping = false;
+		isDodging = false;
+		isHit = false;
+		
+		body.setAngularVelocity(0f);
+		body.setLinearVelocity(0f, 0f);
+		body.setTransform(getUserData().getRunningPosition(), 0);
+	}
 
 }

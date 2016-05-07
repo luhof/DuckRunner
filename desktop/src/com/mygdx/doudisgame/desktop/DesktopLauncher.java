@@ -10,8 +10,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Constants.APP_WIDTH;
 		config.height = Constants.APP_HEIGHT;
+		config.title = "Ich bin Java";
 		new LwjglApplication(new Doudisgame(), config);
 	}
 }
-
 

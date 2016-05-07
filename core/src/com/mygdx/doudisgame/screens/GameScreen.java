@@ -28,6 +28,7 @@ public class GameScreen implements Screen {
 		stage.act(delta);
 	}
 
+
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
