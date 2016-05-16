@@ -3,8 +3,10 @@ package com.mygdx.doudisgame.utils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.doudisgame.box2d.CoinUserData;
 import com.mygdx.doudisgame.box2d.EnemyUserData;
 import com.mygdx.doudisgame.box2d.GroundUserData;
 import com.mygdx.doudisgame.box2d.RunnerUserData;
@@ -67,4 +69,29 @@ public class WorldUtils {
 			return body;
 		}
 	
+		
+		public static Body createCoin(World world){
+			//Initialize ground body
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyDef.BodyType.KinematicBody;
+			bodyDef.position.set(new Vector2(Constants.COIN_X, Constants.COIN_Y));
+			
+			Body body = world.createBody(bodyDef);
+			
+			//Creating the shape and attaching it to the body
+			PolygonShape shape = new PolygonShape();
+			shape.setAsBox(Constants.COIN_WIDTH/2, Constants.COIN_HEIGHT/2);
+			FixtureDef fd1 = new FixtureDef();
+			fd1.isSensor = true;
+			fd1.shape = shape;
+			body.createFixture(fd1);
+			
+			
+			
+			body.setUserData(new CoinUserData(Constants.COIN_WIDTH, Constants.COIN_HEIGHT));
+			shape.dispose();
+			
+			return body;
+		}
+		
 }

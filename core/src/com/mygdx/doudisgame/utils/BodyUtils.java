@@ -21,6 +21,11 @@ public class BodyUtils {
 		return userData != null && userData.getUserDataType() == UserDataType.ENEMY;
 	}
 	
+	public static boolean bodyIsCoin(Body body){
+		UserData userData = (UserData) body.getUserData();
+		return userData != null && userData.getUserDataType() == UserDataType.COIN;
+	}
+	
 	public static boolean bodyInBounds(Body body){
 		UserData userData = (UserData) body.getUserData();
 		

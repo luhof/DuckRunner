@@ -49,6 +49,10 @@ public class Score extends Actor{
 		return (int)score;
 	}
 	
+	public void addScore(int add){
+		score += add;
+	}
+	
 	public int getHighScore(){
 		return Gdx.app.getPreferences("Game").getInteger("highScore");
 	}

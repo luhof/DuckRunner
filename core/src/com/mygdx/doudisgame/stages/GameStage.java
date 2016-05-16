@@ -17,11 +17,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.mygdx.doudisgame.actors.Background;
+import com.mygdx.doudisgame.actors.Coin;
 import com.mygdx.doudisgame.actors.Enemy;
 import com.mygdx.doudisgame.actors.Ground;
 import com.mygdx.doudisgame.actors.Runner;
 import com.mygdx.doudisgame.actors.Score;
 import com.mygdx.doudisgame.actors.StartButton;
+import com.mygdx.doudisgame.box2d.CoinUserData;
+import com.mygdx.doudisgame.box2d.UserData;
 import com.mygdx.doudisgame.enums.GameState;
 import com.mygdx.doudisgame.utils.BodyUtils;
 import com.mygdx.doudisgame.utils.Constants;
@@ -80,6 +83,7 @@ public class GameStage extends Stage implements ContactListener {
 		setupGround();
 		createEnemy();
 		setupScore();
+		createCoin();
 		
         prefs = Gdx.app.getPreferences("Game");
         if(!prefs.contains("highScore")){
@@ -100,6 +104,13 @@ public class GameStage extends Stage implements ContactListener {
 		addActor(enemy);
 		
 	}
+	
+	private void createCoin() {
+		Coin onecoin = new Coin(WorldUtils.createCoin(world));
+		addActor(onecoin);
+		
+	}
+	
 
 	private void setupGround(){
 		ground = new Ground(WorldUtils.createGround(world));
@@ -204,6 +215,15 @@ public class GameStage extends Stage implements ContactListener {
 				(BodyUtils.bodyIsGround(a) && BodyUtils.bodyIsRunner(b))){
 			runner.landed();
 		}
+		else if((BodyUtils.bodyIsCoin(a) && BodyUtils.bodyIsRunner(b)) ||
+				(BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsCoin(b))){
+			
+				if(BodyUtils.bodyIsCoin(a)) killBody(a);
+				else killBody(b);
+				
+				score.addScore(20);
+			
+		}
 		
 		
 	}
@@ -269,6 +289,12 @@ public class GameStage extends Stage implements ContactListener {
 			if(!BodyUtils.bodyIsRunner(body))world.destroyBody(body);
 		}
 		
+		
+		UserData bodyData = (UserData) body.getUserData();
+		if(bodyData != null && bodyData.isFlaggedForDeletion() == true){
+			world.destroyBody(body);
+		}
+		
 	}
 	
 	private void removeAllMonsters(){
@@ -278,6 +304,11 @@ public class GameStage extends Stage implements ContactListener {
 			if (BodyUtils.bodyIsEnemy(body)) world.destroyBody(body);
 			
 		}
+	}
+	
+	private void killBody(Body body){
+		UserData bodyData = (UserData) body.getUserData();
+		bodyData.setFlaggedForDelete(true);
 	}
 	
 	public void onGameOver(){
