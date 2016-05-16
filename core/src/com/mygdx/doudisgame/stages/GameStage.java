@@ -2,6 +2,7 @@ package com.mygdx.doudisgame.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -44,6 +45,7 @@ public class GameStage extends Stage implements ContactListener {
 	
 	private OrthographicCamera camera;
 	private Score score;
+	private static Preferences prefs;
 	private StartButton startButton;
 
 
@@ -78,6 +80,14 @@ public class GameStage extends Stage implements ContactListener {
 		setupGround();
 		createEnemy();
 		setupScore();
+		
+        prefs = Gdx.app.getPreferences("Game");
+        if(!prefs.contains("highScore")){
+        	prefs.putInteger("highScore", 0);
+            prefs.flush();
+        }
+        
+        
 	}
 	
 	private void setupBackground(){
@@ -272,6 +282,7 @@ public class GameStage extends Stage implements ContactListener {
 	
 	public void onGameOver(){
 		GameManager.getInstance().setGameState(GameState.OVER);
+		score.setHighScore();
 		setupStartButton();
 	}
 
