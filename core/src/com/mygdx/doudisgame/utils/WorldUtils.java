@@ -1,5 +1,6 @@
 package com.mygdx.doudisgame.utils;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -14,10 +15,19 @@ import com.mygdx.doudisgame.enums.EnemyType;
 
 public class WorldUtils {
 
+		/**
+		 * 
+		 * @return a new world with custom gravity.
+		 */
 		public static World createWorld(){
 			return new World(Constants.WORLD_GRAVITY, true);
 		}
 		
+		/**
+		 * Creates a box2D-ready actor with constant width, height and position.
+		 * @param the world to add the actor in.
+		 * @return its body
+		 */
 		public static Body createGround(World world){
 			//Initialize ground body
 			BodyDef bodyDef = new BodyDef();
@@ -34,6 +44,11 @@ public class WorldUtils {
 			return body;
 		}
 		
+		/**
+		 * Creates a box2D-ready actor with constant width, height and position.
+		 * @param the world to add the actor in.
+		 * @return its body
+		 */
 		public static Body createRunner(World world){
 			//Initialize ground body
 			BodyDef bodyDef = new BodyDef();
@@ -53,6 +68,11 @@ public class WorldUtils {
 			return body;
 		}
 		
+		/**
+		 * Creates a box2D-ready actor with constant width, height and position.
+		 * @param the world to add the actor in.
+		 * @return its body
+		 */
 		public static Body createEnemy(World world){
 			EnemyType enemyType = RandomUtils.getRandomEnemyType();
 			BodyDef bodyDef = new BodyDef();
@@ -69,12 +89,22 @@ public class WorldUtils {
 			return body;
 		}
 	
-		
+		/**
+		 * Creates a box2D-ready actor with constant width, height and position.
+		 * @param the world to add the actor in.
+		 * @return its body
+		 */
 		public static Body createCoin(World world){
 			//Initialize ground body
 			BodyDef bodyDef = new BodyDef();
 			bodyDef.type = BodyDef.BodyType.KinematicBody;
-			bodyDef.position.set(new Vector2(Constants.COIN_X, Constants.COIN_Y));
+			if(MathUtils.randomBoolean()){
+				bodyDef.position.set(new Vector2(Constants.COIN_X, Constants.COIN_Y));
+			}
+			else{
+				bodyDef.position.set(new Vector2(Constants.COIN_X, Constants.COIN_Y+2f));
+			}
+			
 			
 			Body body = world.createBody(bodyDef);
 			

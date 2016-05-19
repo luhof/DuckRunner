@@ -1,12 +1,14 @@
 package com.mygdx.doudisgame.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.doudisgame.box2d.RunnerUserData;
+import com.mygdx.doudisgame.enums.Difficulty;
 import com.mygdx.doudisgame.utils.Constants;
 
 public class Runner extends GameActor{
@@ -21,7 +23,12 @@ public class Runner extends GameActor{
 	private TextureRegion dodgingTexture;
 	private TextureRegion hitTexture;
 	private float stateTime;
-	
+	private Sound dieSound;
+	/**
+	 * Create a new Runner and initialize his textures and sounds.
+	 * 
+	 * @param body	
+	 */
 	public Runner(Body body) {
 		super(body);
 		//creating animations and textures
@@ -36,8 +43,13 @@ public class Runner extends GameActor{
 		jumpingTexture = textureAtlas.findRegion(Constants.RUNNER_JUMPING_REGION_NAME);
 		dodgingTexture = textureAtlas.findRegion(Constants.RUNNER_DODGING_REGION_NAME);
 		hitTexture = textureAtlas.findRegion(Constants.RUNNER_HIT_REGION_NAME);
+		dieSound = Gdx.audio.newSound(Gdx.files.internal("sounds/die.wav"));
+		
 	}
 	
+	/**
+	 * Draw Jean-Marie's adapted sprite, depending of his state.
+	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha){
 		
@@ -68,6 +80,9 @@ public class Runner extends GameActor{
 		return (RunnerUserData) userData;
 	}
 	
+	/**
+	 * Apply a linear impulse to the character and makes it jump
+	 */
 	public void jump(){
 		if(!(isJumping || isHit)){
 			body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(),body.getWorldCenter(), true);
@@ -97,15 +112,25 @@ public class Runner extends GameActor{
 		return isDodging;
 	}
 	
+	/**
+	 * Apply an angular impulse to Jean-Marie and play a sound.
+	 * 
+	 */
 	public void hit(){
 		body.applyAngularImpulse(getUserData().getHitAngularImpulse(), true);
+		if(!isHit)dieSound.play();
 		isHit = true;
+		
 	}
 	
 	public boolean isHit(){
 		return this.isHit;
 	}
 	
+	
+	/**
+	 * Reload Jean-Marie's states, to a non-jumping, non-dodging, not-hit state.
+	 */
 	public void reset(){
 		isJumping = false;
 		isDodging = false;
@@ -115,5 +140,19 @@ public class Runner extends GameActor{
 		body.setLinearVelocity(0f, 0f);
 		body.setTransform(getUserData().getRunningPosition(), 0);
 	}
+
+	/**
+	 * Adapt Jean-Marie gravity scale and jump speed depending on difficulty
+	 * @param Difficulty	difficulty to switch on
+	 */
+	public void onDifficultyChange(Difficulty newDifficulty) {
+		setGravityScale(newDifficulty.getRunnerGravityScale());
+        getUserData().setJumpingLinearImpulse(newDifficulty.getRunnerJumpingLinearImpulse());
+	}
+	
+	public void setGravityScale(float gravityScale) {
+        body.setGravityScale(gravityScale);
+        body.resetMassData();
+    }
 
 }

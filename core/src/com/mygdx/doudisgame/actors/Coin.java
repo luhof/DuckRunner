@@ -12,6 +12,7 @@ public class Coin extends GameActor{
 	
 	private Texture texture;
 
+		
 	public Coin(Body body) {
 		super(body);
 		// TODO Auto-generated constructor stub
@@ -20,7 +21,6 @@ public class Coin extends GameActor{
 
 	@Override
 	public CoinUserData getUserData() {
-		// TODO Auto-generated method stub
 		return (CoinUserData)userData;
 	}
 
@@ -28,9 +28,10 @@ public class Coin extends GameActor{
 	public void draw (Batch batch, float parentAlpha) {
 		
 		super.draw(batch,parentAlpha);
-		batch.draw(texture, screenRectangle.x, screenRectangle.y, screenRectangle.width, screenRectangle.height);
+		batch.draw(texture, screenRectangle.x, screenRectangle.y, screenRectangle.width, screenRectangle.height);	
 		
 	}
+	
 	@Override
 	public void act(float delta) {
 		super.act(delta);

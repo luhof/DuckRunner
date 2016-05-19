@@ -14,13 +14,16 @@ public class MenuScreen implements Screen{
 	private BitmapFont fnt;
 	private Color colorRed;
 	private Color colorWhite;
+	private Color colorBlue;
 	final Game gam;
 	
 	public MenuScreen(Game gam){
 		this.batch = new SpriteBatch();
-		this.fnt = new BitmapFont();
+		this.fnt = new BitmapFont(Gdx.files.internal("fonts/myFont.fnt"));
 		this.colorRed = new Color(1, 0, 0, 1);
 		this.colorWhite = new Color(1, 1, 1, 1);
+		this.colorBlue = new Color(0, 0, 1, 1);
+		
 		this.gam = gam;
 	}
 	
@@ -34,13 +37,15 @@ public class MenuScreen implements Screen{
 	@Override
 	public void render(float delta) {
 		
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+		Gdx.gl.glClearColor(0, 0, 0.0f, 1);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	    batch.begin();
-	    fnt.setColor(colorWhite);
-		fnt.draw(batch, "WELCOME TO THE JAVA GAME !!!!", 200, 200);
+	    fnt.setColor(colorBlue);
+		fnt.draw(batch, "cours,", 100, 350);
+		fnt.setColor(colorWhite);
+		fnt.draw(batch, "Jean-Marie,", 200, 260);
 		fnt.setColor(colorRed);
-		fnt.draw(batch, "Touch the screen to begin", 200, 100);
+		fnt.draw(batch, "cours !!", 400, 190);
 		batch.end();
 		
 		if (Gdx.input.isTouched()) {

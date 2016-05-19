@@ -7,7 +7,7 @@ public class Constants {
 	 //app
 	public static final int APP_WIDTH = 800;
 	public static final int APP_HEIGHT = 480;
-	 public static final float WORLD_TO_SCREEN = 32;
+	 public static final float WORLD_TO_SCREEN = 50;
 	
 	public static final Vector2 WORLD_GRAVITY = new Vector2(0, -10);
 	
@@ -33,12 +33,12 @@ public class Constants {
     
 	
     //COIN
-  public static final float COIN_X = 20f;
-  public static final float COIN_Y = 3f;
-  public static final float COIN_WIDTH = 2.0f;
-  public static final float COIN_HEIGHT = 2.0f;
+  public static final float COIN_X = 27f;
+  public static final float COIN_Y = 2f;
+  public static final float COIN_WIDTH = 1.0f;
+  public static final float COIN_HEIGHT = 1.0f;
   public static final float COIN_DENSITY = 0f;
-  public static final Vector2 COIN_LINEAR_VELOCITY = new Vector2(-10f, 0);
+  public static final Vector2 COIN_LINEAR_VELOCITY = new Vector2(-5f, 0);
   
     
 	// GROUND

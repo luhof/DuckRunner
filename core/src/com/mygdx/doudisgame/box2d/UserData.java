@@ -13,12 +13,20 @@ public abstract class UserData {
 		
 	}
 	
+	/**
+	 * abstract : contains basic information (width and height) about a user
+	 * @param width
+	 * @param height
+	 */
 	public UserData(float width, float height){
 		this.width = width;
 		this.height = height;
 		this.isFlaggedForDelete = false;
 	}
 	
+	/**
+	* return the type of the object.
+	 */
 	public UserDataType getUserDataType(){
 		return userDataType;
 	}
@@ -39,10 +47,16 @@ public abstract class UserData {
 		this.height = height;
 	}
 
+	/**
+	 * return true if the object will be deleted in the next update step.
+	 */
 	public boolean isFlaggedForDeletion() {
 		return isFlaggedForDelete;
 	}
 
+	/**
+	 * set the object to be deleted in the next update step.
+	 */
 	public void setFlaggedForDelete(boolean isFlaggedForDelete) {
 		this.isFlaggedForDelete = isFlaggedForDelete;
 	}
