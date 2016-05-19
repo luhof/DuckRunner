@@ -31,18 +31,33 @@ public abstract class UserData {
 		return userDataType;
 	}
 
+	/**
+	 * 
+	 * @return with of the user data
+	 */
 	public float getWidth() {
 		return width;
 	}
 
+		/**
+		 * changes user data width 
+		 * @param width to use
+		 */
 	public void setWidth(float width) {
 		this.width = width;
 	}
-
+	/**
+	 * 
+	 * @return height of the user data
+	 */
 	public float getHeight() {
 		return height;
 	}
 
+	/**
+	 * changes user data height
+	 * @param height to use
+	 */
 	public void setHeight(float height) {
 		this.height = height;
 	}

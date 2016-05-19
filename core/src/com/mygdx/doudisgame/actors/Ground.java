@@ -18,6 +18,10 @@ public class Ground extends GameActor{
 	private Rectangle textureRegionBounds2;
 	private int speed = 10;
 	
+	/**
+	 * Creates a ground object with two region bounds so it can scroll endlessly
+	 * @param body
+	 */
 	public Ground(Body body){
 		super(body);
 		textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Constants.GROUND_IMAGE_PATH)));
@@ -48,16 +52,27 @@ public class Ground extends GameActor{
 		batch.draw(textureRegion, textureRegionBounds2.x, screenRectangle.y, screenRectangle.getWidth(), screenRectangle.getHeight());
 	}
 	
+	/**
+	 * 
+	 * @param delta
+	 * @return true if the ground has reached the left of the screen
+	 */
 	private boolean leftBoundsReached(float delta){
 		return (textureRegionBounds2.x - transformToScreen(delta*speed)) <=0;
 	}
 	
-	
+	/**
+	 * update textures' x position based on speed
+	 * @param delta
+	 */
 	private void updateXBounds(float delta){
 		textureRegionBounds1.x += transformToScreen(delta * speed);
 		textureRegionBounds2.x += transformToScreen(delta * speed);
 	}
 	
+	/**
+	 * Set ground bounds to their base position.
+	 */
 	private void resetBounds(){
 		textureRegionBounds1 = textureRegionBounds2;
 		textureRegionBounds2 = new Rectangle(textureRegionBounds1.x + screenRectangle.width, 0, screenRectangle.width, screenRectangle.height);

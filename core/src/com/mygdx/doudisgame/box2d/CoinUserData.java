@@ -8,7 +8,11 @@ public class CoinUserData extends UserData {
 	
 	Vector2 linearVelocity;
 	
-	
+/**
+ * Creates a user data for the coin	
+ * @param width
+ * @param height
+ */
 public CoinUserData (float width, float height) {
 	
 	super(width,height);
@@ -19,11 +23,18 @@ public CoinUserData (float width, float height) {
 }
 
 
+/**
+ * 
+ * @return Vector2 coin's vertical velocity 
+ */
 public Vector2 getLinearVelocity() {
 	return linearVelocity;
 }
 
-
+/**
+ * changes coin speed to a new one
+ * @param linearVelocity
+ */
 public void setLinearVelocity(Vector2 linearVelocity) {
 	this.linearVelocity = linearVelocity;
 }

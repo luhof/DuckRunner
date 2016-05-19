@@ -41,42 +41,66 @@ Difficulty(int level, Vector2 obstacleLinearVelocity, float runnerGravityScale, 
     this.runnerJumpingLinearImpulse = runnerJumpingLinearImpulse;
 }
 
-
+/**
+ * 
+ * @return current level
+ */
 public int getLevel() {
 	return level;
 }
 
-
+/**
+ * changes current level
+ * @param level to use
+ */
 public void setLevel(int level) {
 	this.level = level;
 }
 
-
+/**
+ * 
+ * @return enemy speed multiplicator based on level
+ */
 public Vector2 getEnemyLinearVelocity() {
 	return enemyLinearVelocity;
 }
 
-
+/**
+ * changes enemy speed multiplicator based on level
+ * @param enemyLinearVelocity to use
+ */
 public void setEnemyLinearVelocity(Vector2 enemyLinearVelocity) {
 	this.enemyLinearVelocity = enemyLinearVelocity;
 }
 
-
+/**
+ * 
+ * @return jump multiplicator based on level
+ */
 public float getRunnerGravityScale() {
 	return runnerGravityScale;
 }
 
-
+/**
+ * changes runner gravity based on level
+ * @param runnerGravityScale to use
+ */
 public void setRunnerGravityScale(float runnerGravityScale) {
 	this.runnerGravityScale = runnerGravityScale;
 }
 
-
+/**
+ * returns runner jump force
+ * @return vector2
+ */
 public Vector2 getRunnerJumpingLinearImpulse() {
 	return runnerJumpingLinearImpulse;
 }
 
-
+/**
+ * changes runner jump force
+ * @param runnerJumpingLinearImpulse to use
+ */
 public void setRunnerJumpingLinearImpulse(Vector2 runnerJumpingLinearImpulse) {
 	this.runnerJumpingLinearImpulse = runnerJumpingLinearImpulse;
 }

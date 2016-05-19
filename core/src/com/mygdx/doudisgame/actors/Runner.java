@@ -24,6 +24,9 @@ public class Runner extends GameActor{
 	private TextureRegion hitTexture;
 	private float stateTime;
 	private Sound dieSound;
+	private Sound jumpSound;
+	
+	
 	/**
 	 * Create a new Runner and initialize his textures and sounds.
 	 * 
@@ -44,7 +47,8 @@ public class Runner extends GameActor{
 		dodgingTexture = textureAtlas.findRegion(Constants.RUNNER_DODGING_REGION_NAME);
 		hitTexture = textureAtlas.findRegion(Constants.RUNNER_HIT_REGION_NAME);
 		dieSound = Gdx.audio.newSound(Gdx.files.internal("sounds/die.wav"));
-		
+		jumpSound = Gdx.audio.newSound(Gdx.files.internal("sounds/nespa.wav"));
+		jumpSound.setVolume(0, 0.5f);
 	}
 	
 	/**
@@ -86,14 +90,21 @@ public class Runner extends GameActor{
 	public void jump(){
 		if(!(isJumping || isHit)){
 			body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(),body.getWorldCenter(), true);
+			jumpSound.play();
 			isJumping = true;
 		}
 	}
 	
+	/**
+	 * Set the player status to be on the floor, so he can jump
+	 */
 	public void landed(){
 		isJumping = false;
 	}
 	
+	/**
+	 * Make the player dodge - transforms him so he can dodge enemies
+	 */
 	public void dodge(){
 		if(!(isJumping || isHit)){
 			body.setTransform(getUserData().getDodgePosition(),getUserData().getDodgeAngle());
@@ -101,6 +112,9 @@ public class Runner extends GameActor{
 		}
 	}
 	
+	/**
+	 * Make the player stand up
+	 */
 	public void stopDodge(){
 		isDodging = false;
 		if(!isHit){
@@ -108,6 +122,10 @@ public class Runner extends GameActor{
 		}
 	}
 	
+	/**
+	 * 
+	 * @return true if the player is currently dodging
+	 */
 	public boolean isDodging(){
 		return isDodging;
 	}
@@ -123,6 +141,10 @@ public class Runner extends GameActor{
 		
 	}
 	
+	/**
+	 * 
+	 * @return true if the player has been hit by an object
+	 */
 	public boolean isHit(){
 		return this.isHit;
 	}
@@ -150,6 +172,10 @@ public class Runner extends GameActor{
         getUserData().setJumpingLinearImpulse(newDifficulty.getRunnerJumpingLinearImpulse());
 	}
 	
+	/**
+	 * Change gravity of the player to a new float value.
+	 * @param gravityScale
+	 */
 	public void setGravityScale(float gravityScale) {
         body.setGravityScale(gravityScale);
         body.resetMassData();

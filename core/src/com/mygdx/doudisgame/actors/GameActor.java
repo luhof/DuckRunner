@@ -12,6 +12,10 @@ public abstract class GameActor extends Actor{
 	protected UserData userData;
 	protected Rectangle screenRectangle;
 	
+	/**
+	 * Creates an abstract game actor.
+	 * @param body
+	 */
 	public GameActor(Body body){
 		this.body = body;
 		this.userData = (UserData) body.getUserData();

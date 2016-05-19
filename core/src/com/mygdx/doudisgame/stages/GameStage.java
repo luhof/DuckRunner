@@ -1,11 +1,10 @@
 package com.mygdx.doudisgame.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.mygdx.doudisgame.actors.Background;
 import com.mygdx.doudisgame.actors.Coin;
@@ -26,7 +24,6 @@ import com.mygdx.doudisgame.actors.Ground;
 import com.mygdx.doudisgame.actors.Runner;
 import com.mygdx.doudisgame.actors.Score;
 import com.mygdx.doudisgame.actors.StartButton;
-import com.mygdx.doudisgame.box2d.CoinUserData;
 import com.mygdx.doudisgame.box2d.UserData;
 import com.mygdx.doudisgame.enums.Difficulty;
 import com.mygdx.doudisgame.enums.GameState;
@@ -59,7 +56,8 @@ public class GameStage extends Stage implements ContactListener {
 	private StartButton startButton;
 
 	
-	
+	private Music bgMusic;
+	private Sound pickUpSound;
 	
 	private Rectangle screenRightSide;
 	private Rectangle screenLeftSide;
@@ -71,9 +69,16 @@ public class GameStage extends Stage implements ContactListener {
 	public GameStage(){
 		 super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
 		//BODIES
+		 bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+		 bgMusic.setLooping(true);
+		 bgMusic.setVolume(0.5f);
+		 bgMusic.play();
+		 pickUpSound = Gdx.audio.newSound(Gdx.files.internal("sounds/coin.wav"));
+		 
 		setupWorld();
 		setupCamera();
 		setupTouchControlAreas();
+		
 	}
 	
 	
@@ -92,13 +97,12 @@ public class GameStage extends Stage implements ContactListener {
 		world = WorldUtils.createWorld();
 		world.setContactListener(this);
 		
-		
-		
 		setupBackground();
+		
 		setupRunner();
 		setupGround();
-		createEnemy();
 		setupScore();
+		createEnemy();
 		createCoin();
 		
 		
@@ -169,7 +173,7 @@ public class GameStage extends Stage implements ContactListener {
 	 * Add a Score actor to the stage.
 	 */
 	private void setupScore(){
-		Rectangle boundaries = new Rectangle(125, getCamera().viewportHeight-100, 100, 100);
+		Rectangle boundaries = new Rectangle(125, getCamera().viewportHeight-60, 100, 100);
 		
 		score = new Score(boundaries);
 		
@@ -180,7 +184,7 @@ public class GameStage extends Stage implements ContactListener {
 	 * Add a Start Button actor to the stage.
 	 */
 	private void setupStartButton(){
-		Rectangle boundaries = new Rectangle(100, 100, 70, 70);
+		Rectangle boundaries = new Rectangle(camera.viewportWidth/2-(151/2), 70, 151, 151);
 		startButton = new StartButton(boundaries, this);
 		addActor(startButton);
 	}
@@ -276,8 +280,10 @@ public class GameStage extends Stage implements ContactListener {
 				if(BodyUtils.bodyIsCoin(a)) killBody(a);
 				else killBody(b);
 				
+				
 				// Since we got a coin, we earn 5 pts.
 				score.addScore(5);
+				pickUpSound.play();
 		}
 			
 	}
@@ -295,6 +301,8 @@ public class GameStage extends Stage implements ContactListener {
 	public void act(float delta){
 		
 		super.act(delta);
+		
+		
 		if (GameManager.getInstance().getGameState() == GameState.RUNNING) {
             totalTimePassed += delta;
             updateDifficulty();
@@ -338,7 +346,7 @@ public class GameStage extends Stage implements ContactListener {
 		
 		UserData bodyData = (UserData) body.getUserData();
 		if(bodyData != null && bodyData.isFlaggedForDeletion() == true){
-			if(BodyUtils.bodyIsCoin(body)) createCoin();
+			if(BodyUtils.bodyIsCoin(body) && GameManager.getInstance().getGameState() == GameState.RUNNING) createCoin();
 			world.destroyBody(body);
 			
 		}
@@ -356,7 +364,8 @@ public class GameStage extends Stage implements ContactListener {
 
         Difficulty currentDifficulty = GameManager.getInstance().getDifficulty();
 
-        if (totalTimePassed > GameManager.getInstance().getDifficulty().getLevel() * 5) {
+        // 8 is arbitrary.
+        if (totalTimePassed > GameManager.getInstance().getDifficulty().getLevel() * 8) {
 
             int nextDifficulty = currentDifficulty.getLevel() + 1;
             String difficultyName = "DIFFICULTY_" + nextDifficulty;
@@ -370,14 +379,14 @@ public class GameStage extends Stage implements ContactListener {
     /**
      * Helper class for an upcoming feature !
      */
-	private void removeAllMonsters(){
+	/*private void removeAllMonsters(){
 		Array<Body> bodies = new Array<Body>(world.getBodyCount());
 		world.getBodies(bodies);
 		for(Body body:bodies){
 			if (BodyUtils.bodyIsEnemy(body)) world.destroyBody(body);
 			
 		}
-	}
+	}*/
 	
 	/**
 	 * Add an actor to the "to-be-destroyed" list !

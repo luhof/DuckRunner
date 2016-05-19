@@ -2,7 +2,6 @@ package com.mygdx.doudisgame;
 
 
 import com.badlogic.gdx.Game;
-import com.mygdx.doudisgame.screens.GameScreen;
 import com.mygdx.doudisgame.screens.MenuScreen;
 
 

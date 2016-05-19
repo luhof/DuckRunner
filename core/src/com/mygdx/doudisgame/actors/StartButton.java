@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.doudisgame.stages.GameStage;
 import com.mygdx.doudisgame.utils.Constants;
 
@@ -15,10 +14,15 @@ public class StartButton extends Actor{
 
 	private Texture texture;
 	private Rectangle bounds;
-	private final GameStage gam;
 	
+	
+	/**
+	 * Creates a new button that reload the game when pressed.
+	 * @param rect with values to draw on
+	 * @param gam to reset on press
+	 */
 	public StartButton(Rectangle rect, final GameStage gam){
-		this.gam = gam;
+		
 		this.bounds = rect;
 		setWidth(bounds.getWidth());
 		setHeight(bounds.getHeight());
@@ -40,7 +44,8 @@ public class StartButton extends Actor{
 	public void draw(Batch batch, float parentAlpha){
 			
 			super.draw(batch, parentAlpha);
-			batch.draw(texture, 100f, 100f);
+			batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
+			
 			
 	}
 	

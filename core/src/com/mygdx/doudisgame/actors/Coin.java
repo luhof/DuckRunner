@@ -5,14 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.doudisgame.box2d.CoinUserData;
-import com.mygdx.doudisgame.box2d.UserData;
 import com.mygdx.doudisgame.utils.Constants;
 
 public class Coin extends GameActor{
 	
 	private Texture texture;
 
-		
+	/**
+	 * Creates a new coin based on a body.	
+	 * @param body
+	 */
 	public Coin(Body body) {
 		super(body);
 		// TODO Auto-generated constructor stub
