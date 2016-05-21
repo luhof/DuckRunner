@@ -6,13 +6,21 @@ import com.mygdx.doudisgame.enums.EnemyType;
 
 public class RandomUtils {
 	
+	/**
+	 * 
+	 * @return a random type from the EnemyType enum.
+	 */
 	public static EnemyType getRandomEnemyType(){
 		RandomEnum<EnemyType> randomEnum = new RandomEnum<EnemyType>(EnemyType.class);
 		return randomEnum.random();
 	}
 
 	
-		//Todo find a cleaner random
+	/**
+	 * private, finds a random type from an enum
+	 *
+	 * @param <E>
+	 */
 	private static class RandomEnum<E extends Enum<?>>{
 		
 		private static final Random RND = new Random();

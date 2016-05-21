@@ -7,7 +7,7 @@ public class Constants {
 	 //app
 	public static final int APP_WIDTH = 800;
 	public static final int APP_HEIGHT = 480;
-	 public static final float WORLD_TO_SCREEN = 32;
+	 public static final float WORLD_TO_SCREEN = 50;
 	
 	public static final Vector2 WORLD_GRAVITY = new Vector2(0, -10);
 	
@@ -29,8 +29,18 @@ public class Constants {
     public static final String[] RUNNING_WIDE_ENEMY_REGION_NAMES = new String[] {"worm_walk1", "worm_walk2"};
     public static final String[] FLYING_SMALL_ENEMY_REGION_NAMES = new String[] {"bee_fly1", "bee_fly2"};
     public static final String[] FLYING_WIDE_ENEMY_REGION_NAMES = new String[] {"fly_fly1", "fly_fly2"};
+    public static final String COIN_IMAGE_PATH = "coin.png";
     
 	
+    //COIN
+  public static final float COIN_X = 27f;
+  public static final float COIN_Y = 2f;
+  public static final float COIN_WIDTH = 1.0f;
+  public static final float COIN_HEIGHT = 1.0f;
+  public static final float COIN_DENSITY = 0f;
+  public static final Vector2 COIN_LINEAR_VELOCITY = new Vector2(-5f, 0);
+  
+    
 	// GROUND
 	public static final float GROUND_X = 0f;
 	public static final float GROUND_Y = 0f;
@@ -59,6 +69,7 @@ public class Constants {
 	public static final float RUNNING_LONG_ENEMY_Y = 2f;
 	public static final float FLYING_ENEMY_Y = 3f;
 	public static final Vector2 ENEMY_LINEAR_VELOCITY = new Vector2(-10f, 0);
+	
 	
 }
 

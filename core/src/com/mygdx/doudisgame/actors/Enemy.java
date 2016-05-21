@@ -14,6 +14,11 @@ public class Enemy extends GameActor{
 	private Animation animation;
 	private float stateTime;
 
+	/**
+	 * Constructs an enemy based on a body
+	 * and init its animation based on a spritesheet.
+	 * @param body
+	 */
 	public Enemy(Body body) {
 		super(body);
 		TextureAtlas textureAtlas = new TextureAtlas(Constants.CHARACTERS_ATLAS_PATH);
